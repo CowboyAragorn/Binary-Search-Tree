@@ -40,9 +40,20 @@ class Tree {
   }
 }
 
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
+
 const arr1 = [1, 3, 4, 5, 7, 8, 9, 10];
 
 let tree = new Tree();
 
 console.log(tree.buildtree(arr1));
 console.log(tree);
+prettyPrint(tree.root);
