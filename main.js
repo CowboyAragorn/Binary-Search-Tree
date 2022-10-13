@@ -8,6 +8,7 @@ class Tree {
   constructor() {
     this.root = null;
     this.buildtree = this.buildtree.bind(this);
+    this.insert = this.insert.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -38,6 +39,29 @@ class Tree {
     newNode.right = this.buildtree(rightSubArray);
     return (this.root = newNode);
   }
+  insert(val, cRoot = tree.root) {
+    let currentRoot = cRoot;
+    // while ()
+    if (val > currentRoot.value) {
+      if (currentRoot.right === null) {
+        const newNode = new Node(val);
+        currentRoot.right = newNode;
+        return;
+      } else {
+        tree.insert(val, currentRoot.right);
+      }
+    } else if (val < currentRoot.value) {
+      if (currentRoot.left === null) {
+        const newNode = new Node(val);
+        currentRoot.left = newNode;
+        return;
+      } else {
+        tree.insert(val, currentRoot.left);
+      }
+    } else if (val === currentRoot.value) {
+      return console.log("value already in search tree");
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -56,4 +80,9 @@ let tree = new Tree();
 
 console.log(tree.buildtree(arr1));
 console.log(tree);
+prettyPrint(tree.root);
+tree.insert(15);
+tree.insert(25);
+tree.insert(2);
+
 prettyPrint(tree.root);
