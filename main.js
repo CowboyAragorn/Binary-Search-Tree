@@ -11,6 +11,7 @@ class Tree {
     this.insert = this.insert.bind(this);
     this.remove = this.remove.bind(this);
     this.find = this.find.bind(this);
+    this.levelOrder = this.levelOrder.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -99,12 +100,49 @@ class Tree {
         }
         //update value for currentRoot
         currentRoot.value = loopRoot.value;
-
+        loopRoot.value = loopRoot.value;
+        prevLoopRoot.value = prevLoopRoot.value;
         //erase location of value to be switched from its previous node.
         // If there are right hand nodes of the value to be switched, assign them to the left of the previous node, otherwise null
+        if (prevNode != null) {
+        }
+        console.log("prevNode");
+        console.log(prevNode);
+        console.log(prevLoopRoot);
+        console.log(loopRoot);
+        //need to put another conditional here, 155 and 14 to test
+        if (loopRoot.value < prevLoopRoot.value) {
+          loopRoot.right != null
+            ? (prevLoopRoot.left = loopRoot.right)
+            : (prevLoopRoot.left = loopRoot.left);
+        } else {
+          loopRoot.right != null
+            ? (prevLoopRoot.right = loopRoot.right)
+            : (prevLoopRoot.right = loopRoot.left);
+        }
+
+        /*
+        prevLoopRoot.right = loopRoot.right;
+        prevLoopRoot.left = loopRoot.left;
+        */
+
+        /*
+        if (loopRoot.right === null && loopRoot.left === null) {
+          prevLoopRoot.left = null;
+        } else if (loopRoot.left != null) {
+          prevLoopRoot.left = loopRoot.left;
+        } else {
+          prevLoopRoot.right = loopRoot.right;
+        }
+        /*
         loopRoot.right === null
           ? (prevLoopRoot.left = null)
-          : (prevLoopRoot.right = loopRoot.right);
+          : (prevLoopRoot.left = loopRoot.right);
+        loopRoot.left === null
+          ? (prevLoopRoot.left = null)
+          : (prevLoopRoot.left = loopRoot.left);
+        //loopRoot.left === null ? (prevLoopRoot).right
+        */
 
         return;
       }
@@ -135,6 +173,9 @@ class Tree {
       tree.find(val, currentRoot.left, currentRoot);
     }
   }
+  levelOrder(current = this.root, queue = []) {
+    let currentNode = current;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -162,7 +203,8 @@ tree.insert(12);
 tree.insert(17);
 tree.insert(2);
 prettyPrint(tree.root);
-tree.remove(13);
+tree.remove(21);
 console.log(" ");
 prettyPrint(tree.root);
 tree.find(15);
+tree.levelOrder();
