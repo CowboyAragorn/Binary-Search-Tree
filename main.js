@@ -70,12 +70,13 @@ class Tree {
     }
     //if the value is found//
     if (val === currentRoot.value) {
-      //if the node has no leaves
+      //if the node has no leaves, remove path from prevNode
       if (currentRoot.left === null && currentRoot.right === null) {
         currentRoot.value > preNode.value
           ? (prevNode.right = null)
           : (preNode.left = null);
-        //if the node has only one leaf
+        return;
+        //if the node has only one leaf, copy the leaf, delete parent, reassign copied leaf to prevnode
       } else if (
         (currentRoot.left === null && currentRoot.right != null) ||
         (currentRoot.left != null && currentRoot.right === null)
@@ -83,8 +84,31 @@ class Tree {
         currentRoot.left === null
           ? (prevNode.left = currentRoot.right)
           : (preNode.right = currentRoot.left);
+        return;
       }
-      return;
+      //else if node has two leaves, switch with next best candidate
+      else {
+        //Initialize variables to traverse the loop and keep track of prev node
+        let loopRoot = currentRoot.right;
+        let prevLoopRoot = currentRoot;
+        //loop through to find the lowest value leaf on the right side
+        while (loopRoot.left != null) {
+          prevLoopRoot = loopRoot;
+          loopRoot = loopRoot.left;
+        }
+        //update value for currentRoot
+        currentRoot.value = loopRoot.value;
+
+        //erase location of value to be switched from its previous node.
+        // If there are right hand nodes of the value to be switched, assign them to the left of the previous node, otherwise null
+        loopRoot.right === null
+          ? (prevLoopRoot.left = null)
+          : (prevLoopRoot.right = loopRoot.right);
+
+        return;
+      }
+
+      //recursion to find value
     } else if (val > currentRoot.value) {
       tree.remove(val, currentRoot.right, currentRoot);
     } else if (val < currentRoot.value) {
@@ -104,7 +128,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 const arr1 = [
-  1, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 40, 60, 74, 85, 90, 100,
+  1, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 40, 60, 74, 85, 90, 100, 110, 133,
+  134, 155, 185, 190, 200,
 ];
 
 let tree = new Tree();
@@ -117,6 +142,6 @@ tree.insert(12);
 tree.insert(17);
 tree.insert(2);
 prettyPrint(tree.root);
-tree.remove(40);
+tree.remove(13);
 console.log(" ");
 prettyPrint(tree.root);
