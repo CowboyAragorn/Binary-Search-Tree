@@ -9,6 +9,7 @@ class Tree {
     this.root = null;
     this.buildtree = this.buildtree.bind(this);
     this.insert = this.insert.bind(this);
+    this.remove = this.remove.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -41,7 +42,6 @@ class Tree {
   }
   insert(val, cRoot = tree.root) {
     let currentRoot = cRoot;
-    // while ()
     if (val > currentRoot.value) {
       if (currentRoot.right === null) {
         const newNode = new Node(val);
@@ -62,6 +62,35 @@ class Tree {
       return console.log("value already in search tree");
     }
   }
+  remove(val, cRoot = tree.root, preNode = null) {
+    let prevNode = preNode;
+    let currentRoot = cRoot;
+    if (currentRoot === null) {
+      return console.log("value not in tree");
+    }
+    //if the value is found//
+    if (val === currentRoot.value) {
+      //if the node has no leaves
+      if (currentRoot.left === null && currentRoot.right === null) {
+        currentRoot.value > preNode.value
+          ? (prevNode.right = null)
+          : (preNode.left = null);
+        //if the node has only one leaf
+      } else if (
+        (currentRoot.left === null && currentRoot.right != null) ||
+        (currentRoot.left != null && currentRoot.right === null)
+      ) {
+        currentRoot.left === null
+          ? (prevNode.left = currentRoot.right)
+          : (preNode.right = currentRoot.left);
+      }
+      return;
+    } else if (val > currentRoot.value) {
+      tree.remove(val, currentRoot.right, currentRoot);
+    } else if (val < currentRoot.value) {
+      tree.remove(val, currentRoot.left, currentRoot);
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -74,7 +103,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const arr1 = [1, 3, 4, 5, 7, 8, 9, 10];
+const arr1 = [
+  1, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 40, 60, 74, 85, 90, 100,
+];
 
 let tree = new Tree();
 
@@ -82,7 +113,10 @@ console.log(tree.buildtree(arr1));
 console.log(tree);
 prettyPrint(tree.root);
 tree.insert(15);
-tree.insert(25);
+tree.insert(12);
+tree.insert(17);
 tree.insert(2);
-
+prettyPrint(tree.root);
+tree.remove(40);
+console.log(" ");
 prettyPrint(tree.root);
