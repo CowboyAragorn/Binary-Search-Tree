@@ -10,6 +10,7 @@ class Tree {
     this.buildtree = this.buildtree.bind(this);
     this.insert = this.insert.bind(this);
     this.remove = this.remove.bind(this);
+    this.find = this.find.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -115,6 +116,25 @@ class Tree {
       tree.remove(val, currentRoot.left, currentRoot);
     }
   }
+  find(val, croot = this.root, preNode = null) {
+    let prevNode = preNode;
+    let currentRoot = croot;
+    if (currentRoot === null) {
+      return console.log("value not in tree");
+    } else if (currentRoot.value === val) {
+      return [
+        console.log("FOUND: "),
+        console.log(currentRoot),
+        console.log(currentRoot.value),
+      ];
+    }
+    //recursion to find value
+    if (val > currentRoot.value) {
+      tree.find(val, currentRoot.right, currentRoot);
+    } else if (val < currentRoot.value) {
+      tree.find(val, currentRoot.left, currentRoot);
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -145,3 +165,4 @@ prettyPrint(tree.root);
 tree.remove(13);
 console.log(" ");
 prettyPrint(tree.root);
+tree.find(15);
