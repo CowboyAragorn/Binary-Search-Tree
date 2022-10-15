@@ -12,7 +12,6 @@ class Tree {
     this.remove = this.remove.bind(this);
     this.find = this.find.bind(this);
     this.levelOrder = this.levelOrder.bind(this);
-    this.levelOrderHandler = this.levelOrderHandler.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -147,13 +146,10 @@ class Tree {
     if (queue.length === 0) {
       return console.log(values);
     }
-
     let tempQueue = [];
     //unload current queue values into total values
-    let returnedValues = this.levelOrderHandler(queue);
-    // console.log(returnedValues);
-    for (let i = 0; i < returnedValues.length; i++) {
-      values.push(returnedValues[i]);
+    for (let i = 0; i < queue.length; i++) {
+      values.push(queue[i]);
     }
     //load tempQueue with new values
     for (let i = 0; i < queue.length; i++) {
@@ -167,17 +163,8 @@ class Tree {
     //dequeue followed by enqueue
     queue = [];
     queue = tempQueue;
-    //console.log(queue);
-    //console.log(values);
+    //recursively call level order with updated queue and values
     tree.levelOrder(queue, values);
-  }
-  levelOrderHandler(queue) {
-    let tempNodeArray = [];
-    for (let i = 0; i < queue.length; i++) {
-      tempNodeArray.push(queue[i]);
-    }
-    //console.log(tempNodeArray);
-    return tempNodeArray;
   }
 }
 
