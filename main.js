@@ -12,6 +12,7 @@ class Tree {
     this.remove = this.remove.bind(this);
     this.find = this.find.bind(this);
     this.levelOrder = this.levelOrder.bind(this);
+    this.levelOrderHandler = this.levelOrderHandler.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -104,13 +105,6 @@ class Tree {
         prevLoopRoot.value = prevLoopRoot.value;
         //erase location of value to be switched from its previous node.
         // If there are right hand nodes of the value to be switched, assign them to the left of the previous node, otherwise null
-        if (prevNode != null) {
-        }
-        console.log("prevNode");
-        console.log(prevNode);
-        console.log(prevLoopRoot);
-        console.log(loopRoot);
-        //need to put another conditional here, 155 and 14 to test
         if (loopRoot.value < prevLoopRoot.value) {
           loopRoot.right != null
             ? (prevLoopRoot.left = loopRoot.right)
@@ -120,30 +114,6 @@ class Tree {
             ? (prevLoopRoot.right = loopRoot.right)
             : (prevLoopRoot.right = loopRoot.left);
         }
-
-        /*
-        prevLoopRoot.right = loopRoot.right;
-        prevLoopRoot.left = loopRoot.left;
-        */
-
-        /*
-        if (loopRoot.right === null && loopRoot.left === null) {
-          prevLoopRoot.left = null;
-        } else if (loopRoot.left != null) {
-          prevLoopRoot.left = loopRoot.left;
-        } else {
-          prevLoopRoot.right = loopRoot.right;
-        }
-        /*
-        loopRoot.right === null
-          ? (prevLoopRoot.left = null)
-          : (prevLoopRoot.left = loopRoot.right);
-        loopRoot.left === null
-          ? (prevLoopRoot.left = null)
-          : (prevLoopRoot.left = loopRoot.left);
-        //loopRoot.left === null ? (prevLoopRoot).right
-        */
-
         return;
       }
 
@@ -173,8 +143,41 @@ class Tree {
       tree.find(val, currentRoot.left, currentRoot);
     }
   }
-  levelOrder(current = this.root, queue = []) {
-    let currentNode = current;
+  levelOrder(queue = [this.root], values = []) {
+    if (queue.length === 0) {
+      return console.log(values);
+    }
+
+    let tempQueue = [];
+    //unload current queue values into total values
+    let returnedValues = this.levelOrderHandler(queue);
+    // console.log(returnedValues);
+    for (let i = 0; i < returnedValues.length; i++) {
+      values.push(returnedValues[i]);
+    }
+    //load tempQueue with new values
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i].left != null) {
+        tempQueue.push(queue[i].left);
+      }
+      if (queue[i].right != null) {
+        tempQueue.push(queue[i].right);
+      }
+    }
+    //dequeue followed by enqueue
+    queue = [];
+    queue = tempQueue;
+    //console.log(queue);
+    //console.log(values);
+    tree.levelOrder(queue, values);
+  }
+  levelOrderHandler(queue) {
+    let tempNodeArray = [];
+    for (let i = 0; i < queue.length; i++) {
+      tempNodeArray.push(queue[i]);
+    }
+    //console.log(tempNodeArray);
+    return tempNodeArray;
   }
 }
 
