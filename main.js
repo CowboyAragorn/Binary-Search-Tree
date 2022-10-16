@@ -12,6 +12,7 @@ class Tree {
     this.remove = this.remove.bind(this);
     this.find = this.find.bind(this);
     this.levelOrder = this.levelOrder.bind(this);
+    this.inorder = this.inorder.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -166,6 +167,19 @@ class Tree {
     //recursively call level order with updated queue and values
     tree.levelOrder(queue, values);
   }
+  inorder(node = this.root, values = []) {
+    //never visiting this one, need to find final exit condition
+    if (node === null) {
+      return values;
+    }
+    //visit the left subtree
+    this.inorder(node.left, values);
+    //visit the node
+    values.push(node);
+    // console.log(values);
+    //visit the right subtree
+    return this.inorder(node.right, values);
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -198,3 +212,4 @@ console.log(" ");
 prettyPrint(tree.root);
 tree.find(15);
 tree.levelOrder();
+console.log(tree.inorder());
