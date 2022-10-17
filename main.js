@@ -238,6 +238,23 @@ class Tree {
       return d;
     }
   }
+  isBalanced(node = this.root) {
+    let leftHeight = this.height(node.left);
+    let rightHeight = this.height(node.right);
+    let heightDifference;
+    if (leftHeight >= rightHeight) {
+      heightDifference = leftHeight - rightHeight;
+    } else {
+      heightDifference = rightHeight - leftHeight;
+    }
+
+    if (heightDifference > 1) {
+      return false;
+    } else {
+      console.log("hello");
+      return true;
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -268,7 +285,6 @@ prettyPrint(tree.root);
 tree.remove(21);
 console.log(" ");
 prettyPrint(tree.root);
-//let fifteen = tree.find(15);
 tree.levelOrder();
 console.log("inorder");
 console.log(tree.inorder());
@@ -280,3 +296,4 @@ console.log("height");
 console.log(tree.height(tree.find(14)));
 console.log("depth");
 console.log(tree.depth(tree.find(20)));
+console.log(tree.isBalanced());
