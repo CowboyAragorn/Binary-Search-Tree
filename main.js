@@ -7,14 +7,6 @@ const Node = function (value = null, left = null, right = null) {
 class Tree {
   constructor() {
     this.root = null;
-    this.buildtree = this.buildtree.bind(this);
-    this.insert = this.insert.bind(this);
-    this.remove = this.remove.bind(this);
-    this.find = this.find.bind(this);
-    this.levelOrder = this.levelOrder.bind(this);
-    this.inorder = this.inorder.bind(this);
-    this.preorder = this.preorder.bind(this);
-    this.postorder = this.postorder.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -187,7 +179,7 @@ class Tree {
     }
 
     //visit the node
-    values.push(node);
+    values.push(node.value);
     //visit the left subtree
     this.preorder(node.left, values);
     //visit the right subtree
@@ -204,7 +196,7 @@ class Tree {
     //visit the right subtree
     this.postorder(node.right, values);
     //visit the node
-    values.push(node);
+    values.push(node.value);
     return values;
   }
   height(node, h = 0) {
@@ -255,8 +247,60 @@ class Tree {
     }
   }
   rebalance() {
-    console.log(this.inorder());
     this.buildtree(this.inorder());
+  }
+  randArray() {
+    let array = [];
+    let randNum = Math.floor(Math.random() * 100);
+    for (let i = 0; i < randNum; i++) {
+      let randNum2 = Math.floor(Math.random() * 100);
+      array.push(randNum2);
+    }
+    array.sort(function (a, b) {
+      return a - b;
+    });
+    let uniqueInts = [...new Set(array)];
+
+    return uniqueInts;
+  }
+
+  driver() {
+    //rand array provides a random array of 1-100 length of values 1-100
+    this.buildtree(this.randArray());
+    console.log("visualization of first tree");
+    prettyPrint(this.root);
+    console.log("Is this tree balanced?");
+    console.log(this.isBalanced());
+    console.log("inorder traversal");
+    console.log(this.inorder());
+    console.log("preorder traversal");
+    console.log(this.preorder());
+    console.log("postorder traversal");
+    console.log(this.postorder());
+    console.log("insert several values to unbalance the tree");
+    this.insert(101);
+    this.insert(102);
+    this.insert(103);
+    this.insert(104);
+    this.insert(105);
+    this.insert(106);
+    console.log("visualization of unbalanced tree");
+    prettyPrint(this.root);
+    console.log("Is this tree balanced now?");
+    console.log(this.isBalanced());
+    console.log("Ok then, rebalance the tree");
+    this.rebalance();
+    console.log("rebalancing complete");
+    prettyPrint(this.root);
+    console.log("Is the tree balanced now?");
+    console.log(this.isBalanced());
+    console.log("inorder traversal");
+    console.log(this.inorder());
+    console.log("preorder traversal");
+    console.log(this.preorder());
+    console.log("postorder traversal");
+    console.log(this.postorder());
+    console.log("Nice");
   }
 }
 
@@ -276,7 +320,12 @@ const arr1 = [
 ];
 
 let tree = new Tree();
+//tree.driver creates a new tree from a randomized sorted array, checks for balance, prints in, pre, and post order
+//deliberately unbalances the tree, checks for balance, rebalances, confirms rebalance, then prints rebalanced tree in pre, post, and in order traversals
+tree.driver();
 
+//various testing used in creation of methods, left in to turn on or off for individual methods
+/*
 console.log(tree.buildtree(arr1));
 console.log(tree);
 prettyPrint(tree.root);
@@ -312,3 +361,5 @@ console.log(tree.isBalanced());
 tree.rebalance();
 console.log(tree.isBalanced());
 prettyPrint(tree.root);
+console.log(tree.randArray());
+*/
