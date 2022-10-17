@@ -130,7 +130,8 @@ class Tree {
     let prevNode = preNode;
     let currentRoot = croot;
     if (currentRoot === null) {
-      return console.log("value not in tree");
+      console.log("value not in tree");
+      return null;
     } else if (currentRoot.value === val) {
       console.log(currentRoot);
       return currentRoot;
@@ -219,6 +220,24 @@ class Tree {
     let answer = Math.max(leftHeight, rightHeight) + 1;
     return answer;
   }
+  depth(origNode, node = this.root, d = 0) {
+    if (origNode == null) {
+      return null;
+    }
+    if (node == null) {
+      return -1;
+    }
+    let val = origNode.value;
+    if (val > node.value) {
+      d++;
+      return this.depth(origNode, node.right, d);
+    } else if (val < node.value) {
+      d++;
+      return this.depth(origNode, node.left, d);
+    } else {
+      return d;
+    }
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -257,5 +276,7 @@ console.log("preorder");
 console.log(tree.preorder());
 console.log("postorder");
 console.log(tree.postorder());
-//console.log(fifteen);
+console.log("height");
 console.log(tree.height(tree.find(14)));
+console.log("depth");
+console.log(tree.depth(tree.find(20)));
