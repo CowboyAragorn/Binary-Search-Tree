@@ -132,17 +132,14 @@ class Tree {
     if (currentRoot === null) {
       return console.log("value not in tree");
     } else if (currentRoot.value === val) {
-      return [
-        console.log("FOUND: "),
-        console.log(currentRoot),
-        console.log(currentRoot.value),
-      ];
+      console.log(currentRoot);
+      return currentRoot;
     }
     //recursion to find value
     if (val > currentRoot.value) {
-      tree.find(val, currentRoot.right, currentRoot);
+      return tree.find(val, currentRoot.right, currentRoot);
     } else if (val < currentRoot.value) {
-      tree.find(val, currentRoot.left, currentRoot);
+      return tree.find(val, currentRoot.left, currentRoot);
     }
   }
   levelOrder(queue = [this.root], values = []) {
@@ -209,6 +206,19 @@ class Tree {
     values.push(node);
     return values;
   }
+  height(node, h = 0) {
+    //return height
+    if (node == null) {
+      return -1;
+    }
+    //check the left subtree for length recursively
+    let leftHeight = this.height(node.left, h);
+    //check the right subtree for length recursively
+    let rightHeight = this.height(node.right, h);
+
+    let answer = Math.max(leftHeight, rightHeight) + 1;
+    return answer;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -239,7 +249,7 @@ prettyPrint(tree.root);
 tree.remove(21);
 console.log(" ");
 prettyPrint(tree.root);
-tree.find(15);
+//let fifteen = tree.find(15);
 tree.levelOrder();
 console.log("inorder");
 console.log(tree.inorder());
@@ -247,3 +257,5 @@ console.log("preorder");
 console.log(tree.preorder());
 console.log("postorder");
 console.log(tree.postorder());
+//console.log(fifteen);
+console.log(tree.height(tree.find(14)));
