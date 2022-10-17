@@ -13,6 +13,8 @@ class Tree {
     this.find = this.find.bind(this);
     this.levelOrder = this.levelOrder.bind(this);
     this.inorder = this.inorder.bind(this);
+    this.preorder = this.preorder.bind(this);
+    this.postorder = this.postorder.bind(this);
   }
   buildtree(array) {
     if (array.length === 1) {
@@ -180,6 +182,33 @@ class Tree {
     //visit the right subtree
     return this.inorder(node.right, values);
   }
+  preorder(node = this.root, values = []) {
+    //never visiting this one, need to find final exit condition
+    if (node === null) {
+      return values;
+    }
+
+    //visit the node
+    values.push(node);
+    //visit the left subtree
+    this.preorder(node.left, values);
+    //visit the right subtree
+    return this.preorder(node.right, values);
+  }
+  postorder(node = this.root, values = []) {
+    //never visiting this one, need to find final exit condition
+    if (node === null) {
+      return values;
+    }
+
+    //visit the left subtree
+    this.postorder(node.left, values);
+    //visit the right subtree
+    this.postorder(node.right, values);
+    //visit the node
+    values.push(node);
+    return values;
+  }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -212,4 +241,9 @@ console.log(" ");
 prettyPrint(tree.root);
 tree.find(15);
 tree.levelOrder();
+console.log("inorder");
 console.log(tree.inorder());
+console.log("preorder");
+console.log(tree.preorder());
+console.log("postorder");
+console.log(tree.postorder());
