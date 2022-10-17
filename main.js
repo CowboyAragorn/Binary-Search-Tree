@@ -175,7 +175,7 @@ class Tree {
     //visit the left subtree
     this.inorder(node.left, values);
     //visit the node
-    values.push(node);
+    values.push(node.value);
     // console.log(values);
     //visit the right subtree
     return this.inorder(node.right, values);
@@ -251,9 +251,12 @@ class Tree {
     if (heightDifference > 1) {
       return false;
     } else {
-      console.log("hello");
       return true;
     }
+  }
+  rebalance() {
+    console.log(this.inorder());
+    this.buildtree(this.inorder());
   }
 }
 
@@ -281,6 +284,15 @@ tree.insert(15);
 tree.insert(12);
 tree.insert(17);
 tree.insert(2);
+tree.insert(400);
+tree.insert(500);
+tree.insert(600);
+tree.insert(700);
+tree.insert(800);
+tree.insert(50);
+tree.insert(65);
+tree.insert(28);
+tree.insert(76);
 prettyPrint(tree.root);
 tree.remove(21);
 console.log(" ");
@@ -297,3 +309,6 @@ console.log(tree.height(tree.find(14)));
 console.log("depth");
 console.log(tree.depth(tree.find(20)));
 console.log(tree.isBalanced());
+tree.rebalance();
+console.log(tree.isBalanced());
+prettyPrint(tree.root);
